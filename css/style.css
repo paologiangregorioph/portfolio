@@ -431,13 +431,17 @@ p { margin: 0; }
   line-height: 1.35;
 }
 .footer-signature img { width: clamp(96px, 23vw, 210px); }
-.footer-actions, .legal-footer-links {
+.footer-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 2px clamp(8px, 2vw, 24px);
 }
-.footer-actions, .legal-footer-links { justify-content: flex-end; }
+.footer-actions a { white-space: nowrap; }
+@media (max-width: 600px) {
+  .footer-actions .back-top { flex-basis: 100%; justify-content: flex-end; }
+}
 
 .lightbox {
   position: fixed;
