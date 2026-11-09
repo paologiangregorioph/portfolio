@@ -283,6 +283,7 @@ p { margin: 0; }
 .about-content h2 { margin-bottom: 24px; }
 .about-content > p:not(.eyebrow), .career-layout p:not(.career-year) { color: var(--ink-muted); max-width: 55ch; }
 .about-content > p + p, .career-intro > p + p { margin-top: 16px; }
+.about-signature { width: clamp(160px, 20vw, 220px); margin-top: 20px; }
 .career-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(24px, 8vw, 112px); }
 .about-content h3, .career-intro h3 {
   color: var(--accent);
@@ -419,18 +420,24 @@ p { margin: 0; }
 .collection-card:hover .collection-card__title { color: var(--accent); }
 
 .site-footer {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0 24px;
-  padding: 20px max(var(--gutter), calc((100% - 1440px) / 2));
+  column-gap: clamp(8px, 2vw, 24px);
+  padding: 14px max(var(--gutter), calc((100% - 1440px) / 2));
   border-top: 1px solid var(--line);
   color: var(--ink-muted);
   font-size: .875rem;
+  line-height: 1.35;
 }
-.site-footer > :first-child { margin-right: auto; }
-.footer-content, .footer-links, .legal-footer-links { display: flex; align-items: center; flex-wrap: wrap; gap: 0 24px; }
-.footer-links { margin: 0; padding: 0; list-style: none; }
+.footer-signature img { width: clamp(96px, 23vw, 210px); }
+.footer-actions, .legal-footer-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px clamp(8px, 2vw, 24px);
+}
+.footer-actions, .legal-footer-links { justify-content: flex-end; }
 
 .lightbox {
   position: fixed;
