@@ -11,21 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.prepend(skip);
   }
 
-  addLegalFooterLinks();
   initNav();
   initCollection();
 });
-
-function addLegalFooterLinks() {
-  const footer = document.querySelector('.site-footer');
-  if (!footer || footer.querySelector('[data-legal-links]')) return;
-
-  const links = document.createElement('span');
-  links.dataset.legalLinks = 'true';
-  links.className = 'legal-footer-links';
-  links.innerHTML = '<a href="privacy.html">Privacy</a><a href="cookie.html">Cookie</a>';
-  footer.appendChild(links);
-}
 
 function initNav() {
   const toggle = document.querySelector('.nav-toggle');
@@ -64,34 +52,27 @@ function getPhotoTitle(photo) {
   return photo.displayName || photo.title || '';
 }
 
-function cloudinaryPhotoUrl(src, width, height) {
+function cloudinaryPhotoUrl(photo, width, height) {
   const size = height ? `w_${width},h_${height}` : `w_${width}`;
-  return src.replace(
+  const color = photo.signatureColor === 'black' ? 'black' : 'white';
+  const signature = `l_Firma/c_scale,fl_relative,w_0.26/co_${color},e_colorize:100/o_92/fl_layer_apply,g_south_east,x_0.035,y_0.035`;
+  return photo.src.replace(
     /^(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)(?=v\d+\/)/,
-    `$1c_limit,${size}/q_auto/f_auto/`
+    `$1c_limit,${size}/${signature}/q_auto/f_auto/`
   );
-}
-
-function setPhotoSource(img, original, src, srcset = '', onError = null) {
-  img.onerror = src === original ? onError : () => {
-    img.onerror = onError;
-    img.removeAttribute('srcset');
-    img.src = original;
-  };
-  if (srcset) img.srcset = srcset;
-  img.src = src;
 }
 
 function setPhotoThumbnail(img, photo) {
   const widths = [480, 800, 1200];
   const original = photo.src;
-  const src = cloudinaryPhotoUrl(original, 480);
+  const src = cloudinaryPhotoUrl(photo, 480);
   img.alt = photo.alt || getPhotoTitle(photo);
   img.sizes = '(max-width: 520px) 92vw, (max-width: 960px) 46vw, (max-width: 1480px) 30vw, 470px';
   const srcset = src === original ? '' : widths
-    .map(width => `${cloudinaryPhotoUrl(original, width)} ${width}w`)
+    .map(width => `${cloudinaryPhotoUrl(photo, width)} ${width}w`)
     .join(', ');
-  setPhotoSource(img, original, src, srcset);
+  if (srcset) img.srcset = srcset;
+  img.src = src;
 }
 
 function initCollection() {
@@ -249,7 +230,7 @@ function createPhotoViewer(thumbnails) {
     message.textContent = preview ? 'Caricamento in alta qualità…' : 'Caricamento della foto…';
     message.hidden = false;
 
-    const detailSource = cloudinaryPhotoUrl(photo.src, size, ratio >= 1 ? undefined : size);
+    const detailSource = cloudinaryPhotoUrl(photo, size, ratio >= 1 ? undefined : size);
 
     const detail = new Image();
     pendingImage = detail;
@@ -261,13 +242,14 @@ function createPhotoViewer(thumbnails) {
       image.hidden = false;
       message.hidden = true;
     };
-    setPhotoSource(detail, preview || photo.src, detailSource, '', () => {
+    detail.onerror = () => {
       if (pendingImage !== detail || !dialog.open) return;
       pendingImage = null;
       message.classList.remove('is-loading');
       message.hidden = Boolean(preview);
       if (!preview) message.textContent = 'Impossibile caricare la foto.';
-    });
+    };
+    detail.src = detailSource;
   }
 
   function move(step) {
