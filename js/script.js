@@ -55,7 +55,10 @@ function getPhotoTitle(photo) {
 function cloudinaryPhotoUrl(photo, width, height) {
   const size = height ? `w_${width},h_${height}` : `w_${width}`;
   const color = photo.signatureColor === 'black' ? 'black' : 'white';
-  const signature = `l_Firma/c_scale,fl_relative,w_0.26/co_${color},e_colorize:100/o_92/fl_layer_apply,g_south_east,x_0.035,y_0.035`;
+  // Keep the size and placement in sync with the generator's contrast analysis.
+  const signatureLayer = width =>
+    `l_Firma/c_scale,fl_relative,w_${width}/co_${color},e_colorize:100/fl_layer_apply,g_south_east,x_0.015,y_0.015`;
+  const signature = `if_ar_lt_1.0/${signatureLayer(0.37)}/if_else/${signatureLayer(0.29)}/if_end`;
   return photo.src.replace(
     /^(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)(?=v\d+\/)/,
     `$1c_limit,${size}/${signature}/q_auto/f_auto/`
