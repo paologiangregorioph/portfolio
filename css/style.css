@@ -214,6 +214,24 @@ p { margin: 0; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px clamp(16px, 2vw, 28px);
 }
+/* Equal card widths, with incomplete rows centered in the collection archive. */
+.archive-links--collections {
+  --archive-columns: 4;
+  --archive-gap: clamp(16px, 2vw, 28px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--archive-gap);
+}
+.archive-links--collections .archive-link-card {
+  flex: 0 0 calc((100% + var(--archive-gap)) / var(--archive-columns) - var(--archive-gap));
+}
+@media (max-width: 960px) {
+  .archive-links--collections { --archive-columns: 2; }
+}
+@media (max-width: 520px) {
+  .archive-links--collections { --archive-columns: 1; }
+}
 .portfolio-preview .archive-link-card {
   display: flex;
   flex-direction: column;
