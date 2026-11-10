@@ -439,7 +439,31 @@ p { margin: 0; }
   gap: 2px clamp(8px, 2vw, 24px);
 }
 .footer-actions a { white-space: nowrap; }
-@media (max-width: 600px) {
+@media (max-width: 640px), (max-width: 820px) and (orientation: portrait) {
+  .site-footer {
+    grid-template-columns: minmax(0, 1fr) minmax(142px, 1fr);
+    grid-template-areas:
+      "copyright actions"
+      "signature signature";
+    gap: 4px 10px;
+    padding-block: 8px 12px;
+  }
+  .site-footer > p { grid-area: copyright; }
+  .footer-actions { grid-area: actions; gap: 0 8px; }
+  .footer-signature {
+    grid-area: signature;
+    justify-self: center;
+    height: 21px;
+    overflow: hidden;
+  }
+  .footer-signature img {
+    width: 132px;
+    /* Trim the transparent margins around the strokes. */
+    transform: translateY(-4px);
+    filter: brightness(.75);
+  }
+}
+@media (max-width: 440px) {
   .footer-actions .back-top { flex-basis: 100%; justify-content: flex-end; }
 }
 
