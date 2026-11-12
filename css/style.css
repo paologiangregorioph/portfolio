@@ -456,17 +456,7 @@ p { margin: 0; }
   flex-wrap: wrap;
   gap: 2px clamp(8px, 2vw, 24px);
 }
-.footer-actions a,
-.footer-actions :is([data-cookie-preferences], [data-cookie-reset]) { white-space: nowrap; }
-
-.footer-actions :is([data-cookie-preferences], [data-cookie-reset]) {
-  color: inherit;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-}
+.footer-actions a { white-space: nowrap; }
 
 .cookie-preferences {
   --cookie-gap: clamp(.75rem, 3vw, 1.5rem);
