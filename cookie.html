@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NH2NQTLP"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  </script>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' mailto:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://res.cloudinary.com; connect-src 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' mailto:; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://res.cloudinary.com https://www.google-analytics.com https://region1.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookie e strumenti simili | Paolo Giangregorio</title>
@@ -17,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&amp;family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=footer-compatto-20261110">
+  <link rel="stylesheet" href="css/style.css?v=cookie-20261112">
   <link rel="stylesheet" href="css/legal.css?v=provino-20261106-2">
+  <script defer src="js/cookie-consent.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#top">Vai al contenuto</a>
@@ -26,18 +21,22 @@
   <main id="top" class="legal-page">
     <p class="eyebrow mono">Informazioni legali</p>
     <h1>Cookie e strumenti simili</h1>
-    <p class="legal-updated">Ultimo aggiornamento: 2 novembre 2026</p>
-    <h2>Uso attuale</h2>
-    <p>Alla data dell’aggiornamento, il codice applicativo del sito non installa cookie, non usa localStorage/sessionStorage e non integra strumenti di analytics, pubblicità o profilazione. Per questo, allo stato attuale, il sito non mostra un banner di consenso: non c’è una categoria di cookie non tecnici da attivare o rifiutare. Il provider di hosting o CDN potrebbe però impostare propri identificatori tecnici: il titolare deve verificarlo sulla configurazione effettiva e aggiornare questa informativa. Se in futuro verranno aggiunti strumenti che richiedono consenso, saranno bloccati fino alla scelta dell’utente e questa informativa verrà aggiornata.</p>
+    <p class="legal-updated">Ultimo aggiornamento: 12 novembre 2026</p>
+    <h2>Memorizzazione della scelta</h2>
+    <p>Il sito salva la tua scelta nel browser con la voce <code>portfolio-cookie-preferences-v1</code>. Questa voce serve a ricordare se hai accettato o rifiutato le statistiche e resta nel browser finché la modifichi o cancelli i dati del sito.</p>
+    <h2>Cookie statistici facoltativi</h2>
+    <p>Con il tuo consenso, il sito carica Google Analytics 4 per misurare le visite e capire quali pagine vengono consultate. I cookie statistici sono impostati sul dominio del sito e durano fino a 180 giorni dalla creazione.</p>
+    <h2>Modifica o revoca del consenso</h2>
+    <p>Apri <strong>Preferenze cookie</strong> dal footer di qualsiasi pagina. Se scegli <strong>Rifiuta statistiche</strong> dopo averle accettate, il sito interrompe la raccolta e cancella i cookie Analytics dal browser. La revoca vale per la raccolta futura.</p>
     <h2>Risorse di terze parti</h2>
-    <p>Le pagine richiedono immagini a Cloudinary e font a Google Fonts. Queste sono richieste di risorse esterne, non cookie di consenso del sito; i fornitori possono ricevere dati tecnici di connessione (per esempio l’indirizzo IP). I dettagli sui fornitori, i trasferimenti e le relative basi giuridiche sono descritti nell’<a href="privacy.html">informativa privacy</a> e devono essere verificati dal titolare rispetto alla configurazione effettiva.</p>
+    <p>Le pagine caricano immagini da Cloudinary e caratteri da Google Fonts. Per consegnare queste risorse, i fornitori ricevono dati tecnici di connessione come l’indirizzo IP. Per i dettagli consulta l’<a href="privacy.html">informativa privacy</a>.</p>
     <h2>Gestione dal browser</h2>
     <p>Puoi cancellare o limitare i cookie dalle impostazioni del browser. Le istruzioni dipendono dal browser utilizzato. Le risorse esterne potrebbero non caricarsi se il browser o un’estensione ne blocca le richieste.</p>
   </main>
   <footer class="site-footer">
     <p>© 2026 Paolo Giangregorio</p>
     <div class="footer-signature"><img src="Images/Firma.png" width="2400" height="547" alt="" loading="lazy"></div>
-    <div class="footer-actions"><a href="index.html">Home</a><a href="privacy.html">Privacy</a></div>
+    <div class="footer-actions"><a href="index.html">Home</a><a href="privacy.html">Privacy</a><button type="button" data-cookie-preferences hidden>Preferenze cookie</button></div>
   </footer>
 </body>
 </html>
