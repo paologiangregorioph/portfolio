@@ -77,15 +77,25 @@
     opener = undefined;
   }
 
+  function stopAnalytics() {
+    window[disableKey] = true;
+    clearAnalyticsCookies();
+  }
+
   function applyChoice(choice) {
     if (choice === 'accepted') {
       startAnalytics();
       return;
     }
-    window[disableKey] = true;
-    clearAnalyticsCookies();
+    stopAnalytics();
     if (analyticsStarted) location.reload();
   }
+
+  window.resetCookieConsent = () => {
+    localStorage.removeItem(storageKey);
+    stopAnalytics();
+    location.reload();
+  };
 
   function saveChoice(choice) {
     try {
