@@ -9,8 +9,10 @@
     ad_personalization: 'denied',
   };
   let analyticsStarted = false;
+  let temporaryChoice;
 
   function readChoice() {
+    if (temporaryChoice !== undefined) return temporaryChoice;
     try {
       const choice = localStorage.getItem(storageKey);
       return choice === 'accepted' || choice === 'rejected' ? choice : null;
@@ -25,20 +27,29 @@
     for (const name of ['_ga', '_ga_' + suffix]) {
       for (const path of paths) {
         const expired = name + '=; Max-Age=0; Path=' + path;
-        document.cookie = expired;
-        document.cookie = expired + '; Domain=' + location.hostname;
+        try {
+          document.cookie = expired;
+          document.cookie = expired + '; Domain=' + location.hostname;
+        } catch {
+          // Some browser privacy settings also block cookie deletion.
+          return;
+        }
       }
     }
   }
 
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+
   function startAnalytics() {
-    if (analyticsStarted) return;
+    if (analyticsStarted) {
+      if (window[disableKey]) location.reload();
+      return;
+    }
     analyticsStarted = true;
     window[disableKey] = false;
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
     gtag('consent', 'default', denied);
     gtag('consent', 'update', { analytics_storage: 'granted' });
     gtag('js', new Date());
@@ -79,6 +90,9 @@
 
   function stopAnalytics() {
     window[disableKey] = true;
+    if (analyticsStarted) {
+      gtag('consent', 'update', denied);
+    }
     clearAnalyticsCookies();
   }
 
@@ -88,13 +102,18 @@
       return;
     }
     stopAnalytics();
-    if (analyticsStarted) location.reload();
+    if (analyticsStarted && temporaryChoice === undefined) location.reload();
   }
 
   function resetCookieConsent() {
-    localStorage.removeItem(storageKey);
     stopAnalytics();
-    location.reload();
+    try {
+      localStorage.removeItem(storageKey);
+      location.reload();
+    } catch {
+      temporaryChoice = null;
+      if (!panel.open) panel.showModal();
+    }
   }
 
   window.resetCookieConsent = resetCookieConsent;
@@ -102,9 +121,16 @@
   function saveChoice(choice) {
     try {
       localStorage.setItem(storageKey, choice);
+      temporaryChoice = undefined;
     } catch {
       // Analytics stays disabled if the site cannot remember consent.
       choice = 'rejected';
+      temporaryChoice = choice;
+      try {
+        localStorage.removeItem(storageKey);
+      } catch {
+        // Keep the refusal in memory when storage is entirely unavailable.
+      }
     }
     closePanel();
     applyChoice(choice);
@@ -120,18 +146,14 @@
     else saveChoice('rejected');
   });
 
-  for (const button of document.querySelectorAll('[data-cookie-preferences]')) {
-    button.hidden = false;
-    button.addEventListener('click', () => {
-      opener = button;
+  for (const link of document.querySelectorAll('[data-cookie-preferences]')) {
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      opener = link;
       if (panel.open) panel.close();
       panel.showModal();
     });
-  }
-
-  for (const button of document.querySelectorAll('[data-cookie-reset]')) {
-    button.addEventListener('click', resetCookieConsent);
-    button.hidden = false;
   }
 
   function syncChoice() {
@@ -139,8 +161,7 @@
     applyChoice(choice);
     if (choice && panel.open) closePanel();
     if (!choice && !panel.open && !analyticsStarted) {
-      // Show the first-visit notice without moving keyboard focus.
-      panel.setAttribute('open', '');
+      panel.showModal();
     }
   }
 
