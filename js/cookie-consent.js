@@ -91,11 +91,13 @@
     if (analyticsStarted) location.reload();
   }
 
-  window.resetCookieConsent = () => {
+  function resetCookieConsent() {
     localStorage.removeItem(storageKey);
     stopAnalytics();
     location.reload();
-  };
+  }
+
+  window.resetCookieConsent = resetCookieConsent;
 
   function saveChoice(choice) {
     try {
@@ -125,6 +127,11 @@
       if (panel.open) panel.close();
       panel.showModal();
     });
+  }
+
+  for (const button of document.querySelectorAll('[data-cookie-reset]')) {
+    button.addEventListener('click', resetCookieConsent);
+    button.hidden = false;
   }
 
   function syncChoice() {
