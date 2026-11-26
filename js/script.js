@@ -1,3 +1,14 @@
+const screenFonts = document.querySelector('link[data-screen-fonts]');
+if (screenFonts) {
+  if (screenFonts.sheet) {
+    screenFonts.media = 'all';
+  } else {
+    screenFonts.addEventListener('load', () => {
+      screenFonts.media = 'all';
+    }, { once: true });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const year = document.querySelector('#year');
   if (year) year.textContent = new Date().getFullYear();
