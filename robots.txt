@@ -1,1 +1,3 @@
-Sitemap: https://tuo-utente.github.io/tuo-repo/sitemap.txt   
+User-agent: *
+Disallow:
+Sitemap: https://paologiangregorioph.github.io/portfolio/sitemap.xml
